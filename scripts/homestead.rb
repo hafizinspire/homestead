@@ -58,6 +58,17 @@ class Homestead
       end
     end
 
+    # Updating the hosts file with all the sites that are defined in Homestead.yaml
+    if Vagrant.has_plugin?("vagrant-hostsupdater")
+
+      hosts = []
+      settings["sites"].each do |site|
+        hosts.push(site["map"])
+      end
+      config.hostsupdater.aliases = hosts
+
+    end
+
     # Configure All Of The Server Environment Variables
     if settings.has_key?("variables")
       settings["variables"].each do |var|
